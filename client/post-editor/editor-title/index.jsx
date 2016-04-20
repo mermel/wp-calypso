@@ -44,23 +44,30 @@ export default React.createClass( {
 		const { isNew, site } = this.props;
 		if ( ( isNew && ! prevProps.isNew ) ||
 				( isNew && get( prevProps.site, 'ID' ) !== get( site, 'ID' ) ) ) {
-			ReactDom.findDOMNode( this.refs.titleInput ).focus();
+			const input = ReactDom.findDOMNode( this.refs.titleInput );
+			input.focus();
+		}
+
+		// If value updated via paste, restore caret location
+		if ( this.selectionStart ) {
+			const input = ReactDom.findDOMNode( this.refs.titleInput );
+			input.setSelectionRange( this.selectionStart, this.selectionStart );
+			delete this.selectionStart;
 		}
 	},
 
-	onChange( event ) {
-		const { post, onChange } = this.props;
+	setTitle( title ) {
+		// TODO: REDUX - remove flux actions when whole post-editor is reduxified
+		PostActions.edit( { title } );
+	},
 
-		if ( ! post ) {
+	onChange( event ) {
+		if ( ! this.props.post ) {
 			return;
 		}
 
-		// TODO: REDUX - remove flux actions when whole post-editor is reduxified
-		PostActions.edit( {
-			title: event.target.value
-		} );
-
-		onChange( event );
+		this.setTitle( event.target.value );
+		this.props.onChange( event );
 	},
 
 	recordChangeStats() {
@@ -71,6 +78,40 @@ export default React.createClass( {
 
 	onBlur( event ) {
 		this.onChange( event );
+	},
+
+	stripPasteNewlines( event ) {
+		// `window.clipboardData` deprecated as of Microsoft Edge
+		// See: https://msdn.microsoft.com/library/ms535220(v=vs.85).aspx
+		const clipboard = event.clipboardData || window.clipboardData;
+		if ( ! clipboard ) {
+			return;
+		}
+
+		event.preventDefault();
+
+		let text = clipboard.getData( 'Text' ) || clipboard.getData( 'text/plain' );
+		if ( ! text ) {
+			return;
+		}
+
+		// Replace any whitespace (including newlines) with a single space
+		text = text.replace( /\s+/g, ' ' ).trim();
+
+		// Splice trimmed text into current title selection
+		const { value, selectionStart, selectionEnd } = event.target;
+		const valueChars = value.split( '' );
+		valueChars.splice( selectionStart, selectionEnd - selectionStart, text );
+		const newTitle = valueChars.join( '' );
+
+		this.setTitle( newTitle );
+		this.selectionStart = selectionStart + text.length;
+	},
+
+	preventEnterKeyPress( event ) {
+		if ( 'Enter' === event.key || 13 === event.charCode ) {
+			event.preventDefault();
+		}
 	},
 
 	render() {
@@ -96,6 +137,8 @@ export default React.createClass( {
 						placeholder={ this.translate( 'Title' ) }
 						onChange={ this.onChange }
 						onBlur={ this.onBlur }
+						onPaste={ this.stripPasteNewlines }
+						onKeyPress={ this.preventEnterKeyPress }
 						autoFocus={ isNew && ! isMobile() }
 						value={ post ? post.title : '' }
 						aria-label={ this.translate( 'Edit title' ) }
