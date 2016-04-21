@@ -50,10 +50,24 @@ export default React.createClass( {
 
 		// If value updated via paste, restore caret location
 		if ( this.selectionStart ) {
-			const input = ReactDom.findDOMNode( this.refs.titleInput );
-			input.setSelectionRange( this.selectionStart, this.selectionStart );
-			delete this.selectionStart;
+			this.setSelectionTimeout = setTimeout( this.setSelection, 0 );
 		}
+	},
+
+	componentWillUnmount() {
+		clearTimeout( this.setSelectionTimeout );
+		delete this.setSelectionTimeout;
+		delete this.selectionStart;
+	},
+
+	setSelection() {
+		if ( ! this.selectionStart ) {
+			return;
+		}
+
+		const input = ReactDom.findDOMNode( this.refs.titleInput );
+		input.setSelectionRange( this.selectionStart, this.selectionStart );
+		delete this.selectionStart;
 	},
 
 	setTitle( title ) {
@@ -104,8 +118,11 @@ export default React.createClass( {
 		valueChars.splice( selectionStart, selectionEnd - selectionStart, text );
 		const newTitle = valueChars.join( '' );
 
-		this.setTitle( newTitle );
+		// To preserve caret location, we track intended selection point to be
+		// restored after next render pass
 		this.selectionStart = selectionStart + text.length;
+
+		this.setTitle( newTitle );
 	},
 
 	preventEnterKeyPress( event ) {
