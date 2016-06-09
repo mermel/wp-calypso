@@ -109,8 +109,8 @@ export default React.createClass( {
 			return;
 		}
 
-		// Replace any whitespace (including newlines) with a single space
-		text = text.replace( /\s+/g, ' ' ).trim();
+		// Replace any newline characters with a single space
+		text = text.replace( /[\r\n]+/g, ' ' );
 
 		// Splice trimmed text into current title selection
 		const { value, selectionStart, selectionEnd } = event.target;
