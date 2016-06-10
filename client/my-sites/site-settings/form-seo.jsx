@@ -16,6 +16,7 @@ import Card from 'components/card';
 import Button from 'components/button';
 import SectionHeader from 'components/section-header';
 import ExternalLink from 'components/external-link';
+import FacebookPreview from 'components/seo/facebook-preview';
 import Notice from 'components/notice';
 import NoticeAction from 'components/notice/notice-action';
 import notices from 'notices';
@@ -232,6 +233,7 @@ export const SeoForm = React.createClass( {
 			: siteTitle;
 		const siteUrl = `https://${ slug }/`;
 		const sitemapUrl = `${ siteUrl }/sitemap.xml`;
+		const siteSlug = get( this.props, 'site.wpcom_url' ) || slug;
 		const generalTabUrl = getGeneralTabUrl( slug );
 		const placeholderTagContent = '1234';
 
@@ -305,6 +307,24 @@ export const SeoForm = React.createClass( {
 									title={ seoTitle }
 									url={ siteUrl }
 									snippet={ seoMetaDescription }
+								/>
+
+								<FacebookPreview
+									title={ seoTitle }
+									url={ siteUrl }
+									type="website"
+									description={ seoMetaDescription }
+									slug={ siteSlug }
+								/>
+
+								<div style={ { marginBottom: '2em' } }>&nbsp;</div>
+
+								<FacebookPreview
+									title={ seoTitle }
+									url={ siteUrl }
+									type="article"
+									description={ seoMetaDescription }
+									slug={ siteSlug }
 								/>
 							</FormFieldset>
 
