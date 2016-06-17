@@ -25,6 +25,7 @@ import pushNotifications from './push-notifications/reducer';
 import reader from './reader/reducer';
 import receipts from './receipts/reducer';
 import sharing from './sharing/reducer';
+import signup from './signup/reducer';
 import sites from './sites/reducer';
 import siteSettings from './site-settings/reducer';
 import stats from './stats/reducer';
@@ -59,6 +60,7 @@ export const reducer = combineReducers( {
 	reader,
 	receipts,
 	sharing,
+	signup,
 	sites,
 	siteSettings,
 	stats,
