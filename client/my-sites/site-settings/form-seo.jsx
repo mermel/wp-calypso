@@ -30,6 +30,7 @@ import CountedTextarea from 'components/forms/counted-textarea';
 import PageViewTracker from 'lib/analytics/page-view-tracker';
 import SearchPreview from 'components/seo/search-preview';
 import config from 'config';
+import { requirePost } from 'state/wp-api/posts/actions';
 import { recordTracksEvent } from 'state/analytics/actions';
 
 const serviceIds = {
@@ -283,6 +284,7 @@ export const SeoForm = React.createClass( {
 							}
 						) }
 					</p>
+					<button onClick={ this.props.fetchPost }>Fetch Post</button>
 					<form onChange={ this.markChanged } className="seo-form">
 						<FormFieldset>
 							<FormFieldset className="has-divider">
@@ -427,7 +429,8 @@ export const SeoForm = React.createClass( {
 } );
 
 const mapDispatchToProps = dispatch => ( {
-	trackSubmission: () => dispatch( recordTracksEvent( 'calypso_seo_settings_form_submit', {} ) )
+	trackSubmission: () => dispatch( recordTracksEvent( 'calypso_seo_settings_form_submit', {} ) ),
+	fetchPost: () => dispatch( requirePost( 73244802, 10529 ) )
 } );
 
 export default connect( null, mapDispatchToProps, null, { pure: false } )( SeoForm );
