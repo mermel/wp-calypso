@@ -49,7 +49,7 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
 		stateProps,
 		{
 			options,
-			defaultOption: options.tryandcustomize,
+			getDefaultOption: () => options.activate,
 			getScreenshotOption: () => options.info
 		}
 	);

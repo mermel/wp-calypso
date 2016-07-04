@@ -32,7 +32,7 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
 		stateProps,
 		{
 			options,
-			defaultOption: options.signup,
+			getDefaultOption: () => options.signup,
 			getScreenshotOption: () => options.info
 		}
 	);
