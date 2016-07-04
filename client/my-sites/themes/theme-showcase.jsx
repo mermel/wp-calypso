@@ -27,7 +27,7 @@ const ThemeShowcase = React.createClass( {
 	propTypes: {
 		// Connected props
 		options: PropTypes.objectOf( optionShape ),
-		getDefaultOption: PropTypes.func,
+		defaultOption: optionShape,
 		getScreenshotOption: PropTypes.func
 	},
 
@@ -49,7 +49,7 @@ const ThemeShowcase = React.createClass( {
 	},
 
 	onPreviewButtonClick( theme ) {
-		const defaultOption = this.props.getDefaultOption( theme );
+		const { defaultOption } = this.props;
 		this.setState( { showPreview: false }, () => {
 			defaultOption.action( theme );
 		} );
@@ -72,7 +72,7 @@ const ThemeShowcase = React.createClass( {
 				action: previewAction
 			} }
 		);
-		const defaultOption = this.props.getDefaultOption( this.state.previewingTheme );
+		const { defaultOption } = this.props;
 		const { getScreenshotOption } = this.props;
 
 		return (

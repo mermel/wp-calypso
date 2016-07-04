@@ -129,7 +129,7 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
 		stateProps,
 		{
 			options,
-			getDefaultOption: theme => theme.active ? options.customize : options.activate,
+			defaultOption: options.tryandcustomize,
 			getScreenshotOption: theme => theme.active ? options.customize : options.info
 		}
 	);
