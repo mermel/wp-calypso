@@ -73,7 +73,7 @@ const ThemeShowcase = React.createClass( {
 			} }
 		);
 		const { defaultOption } = this.props;
-		const getScreenshotOption = theme => this.props.getScreenshotOption( theme );
+		const { getScreenshotOption } = this.props;
 
 		return (
 			<Main className="themes">
