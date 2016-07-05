@@ -171,3 +171,128 @@
 	position: absolute;
 	bottom: 0;
 }
+
+.twitter-card-preview__summary {
+	width: 505px;
+	height: 120px;
+	overflow: hidden;
+
+	border-radius: 0.42857em;
+	border: 1px solid #E1E8ED;
+}
+
+.twitter-card-preview__summary
+.twitter-card-preview__image {
+	float: left;
+	width: 120px;
+	border-right: 1px solid #E1E8ED;
+
+	& img {
+		height: auto;
+		width: 100%;
+	}
+}
+
+.twitter-card-preview__summary
+.twitter-card-preview__body {
+	position: relative;
+	padding: 10px 10px 0px 130px;
+}
+
+.twitter-card-preview__summary
+.twitter-card-preview__title {
+	font-size: 14px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 1.3em;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-align: left;
+	font-weight: bold;
+}
+
+.twitter-card-preview__summary
+.twitter-card-preview__description {
+	font-size: 14px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 1.3em;
+
+	max-height: 3.9em;
+	overflow: hidden;
+	margin-top: 0.32333em;
+}
+
+.twitter-card-preview__summary
+.twitter-card-preview__url {
+	font-size: 14px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 1.3em;
+
+	text-transform: lowercase;
+	color: #8899A6;
+	max-height: 1.3em;
+	white-space: nowrap;
+	overflow: hidden;
+	margin-top: 0.32333em;
+}
+
+.twitter-card-preview__large_image_summary {
+	width: 455px;
+	height: auto;
+	overflow: hidden;
+
+	border-radius: 0.42857em;
+	border: 1px solid #E1E8ED;
+}
+
+.twitter-card-preview__large_image_summary
+.twitter-card-preview__image {
+
+	& img {
+		height: auto;
+		width: 100%;
+	}
+}
+
+.twitter-card-preview__large_image_summary
+.twitter-card-preview__body {
+	padding: 5px 15px 10px 15px;
+}
+
+.twitter-card-preview__large_image_summary
+.twitter-card-preview__title {
+	font-size: 14px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 1.3em;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: left;
+	font-weight: bold;
+}
+
+.twitter-card-preview__large_image_summary
+.twitter-card-preview__description {
+	font-size: 14px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 1.3em;
+
+	max-height: 3.9em;
+	overflow: hidden;
+	margin-top: 0.32333em;
+}
+
+.twitter-card-preview__large_image_summary
+.twitter-card-preview__url {
+	font-size: 14px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 1.3em;
+
+	text-transform: lowercase;
+	color: #8899A6;
+	max-height: 1.3em;
+	white-space: nowrap;
+	overflow: hidden;
+	margin-top: 0.32333em;
+}

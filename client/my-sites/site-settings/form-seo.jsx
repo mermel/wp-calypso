@@ -17,6 +17,7 @@ import Button from 'components/button';
 import SectionHeader from 'components/section-header';
 import ExternalLink from 'components/external-link';
 import FacebookPreview from 'components/seo/facebook-preview';
+import TwitterPreview from 'components/seo/twitter-preview';
 import Notice from 'components/notice';
 import NoticeAction from 'components/notice/notice-action';
 import notices from 'notices';
@@ -322,10 +323,31 @@ export const SeoForm = React.createClass( {
 								<FacebookPreview
 									title={ seoTitle }
 									url={ siteUrl }
-									type="article"
+									type="summary"
 									description={ seoMetaDescription }
 									slug={ siteSlug }
 								/>
+
+								<div style={ { marginBottom: '2em' } }>&nbsp;</div>
+
+								<TwitterPreview
+									title={ seoTitle }
+									url={ siteUrl }
+									type="summary"
+									description={ seoMetaDescription }
+									slug={ siteSlug }
+								/>
+
+								<div style={ { marginBottom: '2em' } }>&nbsp;</div>
+
+								<TwitterPreview
+									title={ seoTitle }
+									url={ siteUrl }
+									type="large_image_summary"
+									description={ seoMetaDescription }
+									slug={ siteSlug }
+								/>
+
 							</FormFieldset>
 
 							<FormFieldset>
