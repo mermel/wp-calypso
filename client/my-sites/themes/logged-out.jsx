@@ -8,7 +8,7 @@ import mapValues from 'lodash/mapValues';
 /**
  * Internal dependencies
  */
-import { signupAction } from 'state/themes/actions' ;
+import { signup as signupAction } from 'state/themes/actions' ;
 import { getQueryParams, getThemesList } from 'state/themes/themes-list/selectors';
 import ThemeShowcase from './theme-showcase';
 import { preview, signup, getSheetOptions } from './theme-options';
