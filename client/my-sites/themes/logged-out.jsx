@@ -2,47 +2,37 @@
  * External dependencies
  */
 import { connect } from 'react-redux';
-import merge from 'lodash/merge';
-import mapValues from 'lodash/mapValues';
 
 /**
  * Internal dependencies
  */
-import { signup as signupAction } from 'state/themes/actions' ;
 import { getQueryParams, getThemesList } from 'state/themes/themes-list/selectors';
 import ThemeShowcase from './theme-showcase';
-import { preview, signup, getSheetOptions } from './theme-options';
+import { preview, signup, getSheetOptions, bindOptionsToDispatch } from './theme-options';
 
-const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
-	const options = merge(
-		{},
-		mapValues( dispatchProps, actionFn => ( {
-			action: ( theme, site ) => actionFn( theme, site, 'showcase' )
-		} ) ),
-		{
-			signup,
-			preview
-		},
-		getSheetOptions()
-	);
-
-	return Object.assign(
-		{},
-		ownProps,
-		stateProps,
-		{
-			options,
-			defaultOption: options.signup,
-			getScreenshotOption: () => options.info
-		}
-	);
-};
+const mergeProps = ( stateProps, dispatchProps, ownProps ) => Object.assign(
+	{},
+	ownProps,
+	stateProps,
+	{
+		options: dispatchProps,
+		defaultOption: dispatchProps.signup,
+		getScreenshotOption: () => dispatchProps.info
+	}
+);
 
 export default connect(
 	state => ( {
 		queryParams: getQueryParams( state ),
 		themesList: getThemesList( state )
 	} ),
-	{ signup: signupAction },
+	bindOptionsToDispatch( Object.assign(
+		{},
+		{
+			signup,
+			preview
+		},
+		getSheetOptions()
+	), 'showcase' ),
 	mergeProps
 )( ThemeShowcase );

@@ -3,19 +3,13 @@
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import merge from 'lodash/merge';
-import mapValues from 'lodash/mapValues';
 import { localize } from 'i18n-calypso';
+import merge from 'lodash/merge';
 
 /**
  * Internal dependencies
  */
 import Main from 'components/main';
-import {
-	customize as customizeAction,
-	purchase as purchaseAction,
-	activate as activateAction
-} from 'state/themes/actions';
 import CurrentTheme from 'my-sites/themes/current-theme';
 import SidebarNavigation from 'my-sites/sidebar-navigation';
 import ThanksModal from 'my-sites/themes/thanks-modal';
@@ -23,7 +17,15 @@ import config from 'config';
 import EmptyContent from 'components/empty-content';
 import JetpackUpgradeMessage from './jetpack-upgrade-message';
 import JetpackManageDisabledMessage from './jetpack-manage-disabled-message';
-import { customize, preview, purchase, activate, tryandcustomize, getSheetOptions } from './theme-options';
+import {
+	customize,
+	preview,
+	purchase,
+	activate,
+	tryandcustomize,
+	getSheetOptions,
+	bindOptionsToDispatch
+} from './theme-options';
 import { getQueryParams, getThemesList } from 'state/themes/themes-list/selectors';
 import sitesFactory from 'lib/sites-list';
 import { FEATURE_CUSTOM_DESIGN } from 'lib/plans/constants';
@@ -105,22 +107,15 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
 	const { selectedSite: site, isCustomizable, isJetpack } = stateProps;
 	const options = merge(
 		{},
-		mapValues( dispatchProps, actionFn => ( {
-			action: theme => actionFn( theme, site, 'showcase' )
-		} ) ),
+		dispatchProps,
 		{
 			customize: isCustomizable ? customize : {},
 			preview: isJetpack
 				? {
 					action: theme => dispatchProps.customize( theme, site, 'showcase' ),
-					hideForTheme: theme => theme.active
 				}
-				: preview,
-			purchase,
-			activate,
-			tryandcustomize,
-		},
-		getSheetOptions( site, isJetpack )
+				: dispatchProps.preview
+		}
 	);
 
 	return Object.assign(
@@ -146,11 +141,12 @@ export default connect(
 			isCustomizable: selectedSite && canCurrentUser( state, selectedSite.ID, 'edit_theme_options' )
 		};
 	},
-	{
-		activate: activateAction,
-		customize: customizeAction,
-		purchase: purchaseAction,
-		tryandcustomize: customizeAction,
-	},
+	bindOptionsToDispatch( {
+		customize,
+		preview,
+		purchase,
+		activate,
+		tryandcustomize
+	}, 'showcase' ),
 	mergeProps
 )( localize( ThemesSingleSite ) );

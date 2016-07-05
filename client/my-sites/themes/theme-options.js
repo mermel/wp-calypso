@@ -3,12 +3,20 @@
 /**
  * External dependencies
  */
+import { bindActionCreators } from 'redux';
 import i18n from 'i18n-calypso';
+import mapValues from 'lodash/mapValues';
 
 /**
  * Internal dependencies
  */
 import config from 'config';
+import {
+	customize as customizeAction,
+	purchase as purchaseAction,
+	activate as activateAction,
+	signup as signupAction
+} from 'state/themes/actions';
 import {
 	getSignupUrl,
 	getDetailsUrl,
@@ -26,6 +34,7 @@ export const purchase = config.isEnabled( 'upgrades/checkout' )
 			context: 'verb',
 			comment: 'label for selecting a site for which to purchase a theme'
 		} ),
+		action: purchaseAction,
 		hideForTheme: theme => ! theme.price || theme.active || theme.purchased
 	}
 	: {};
@@ -33,12 +42,14 @@ export const purchase = config.isEnabled( 'upgrades/checkout' )
 export const activate = {
 	label: i18n.translate( 'Activate' ),
 	header: i18n.translate( 'Activate on:', { comment: 'label for selecting a site on which to activate a theme' } ),
+	action: activateAction,
 	hideForTheme: theme => theme.active || ( theme.price && ! theme.purchased )
 };
 
 export const customize = {
 	label: i18n.translate( 'Customize' ),
 	header: i18n.translate( 'Customize on:', { comment: 'label in the dialog for selecting a site for which to customize a theme' } ),
+	action: customizeAction,
 	hideForTheme: theme => ! theme.active
 };
 
@@ -47,6 +58,7 @@ export const tryandcustomize = {
 	header: i18n.translate( 'Try & Customize on:', {
 		comment: 'label in the dialog for opening the Customizer with the theme in preview'
 	} ),
+	action: customizeAction,
 	hideForTheme: theme => theme.active
 };
 
@@ -61,6 +73,7 @@ export const signup = {
 	label: i18n.translate( 'Pick this design', {
 		comment: 'when signing up for a WordPress.com account with a selected theme'
 	} ),
+	action: signupAction,
 	getUrl: theme => getSignupUrl( theme )
 };
 
@@ -88,3 +101,16 @@ export const getSheetOptions = ( site = false, isJetpack = false ) => ( {
 		}
 		: {}
 } );
+
+export function bindOptionsToDispatch( options, source ) {
+	return dispatch => mapValues( options, option => Object.assign(
+		{},
+		option,
+		option.action
+			? { action: bindActionCreators(
+				( theme, site ) => option.action( theme, site, source ),
+				dispatch
+				) }
+			: {}
+	) );
+}
