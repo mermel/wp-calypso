@@ -14,7 +14,7 @@ import uniq from 'lodash/uniq';
  * Internal dependencies
  */
 import { ROUTE_SET } from 'state/action-types';
-import { isSectionLoading, getInitialQueryArguments } from 'state/ui/selectors';
+import { isSectionLoading, getSectionName, getInitialQueryArguments } from 'state/ui/selectors';
 import { getActionLog } from 'state/ui/action-log/selectors';
 import { getPreference } from 'state/preferences/selectors';
 import createSelector from 'lib/create-selector';
@@ -154,8 +154,8 @@ const getStepConfig = ( state, tourConfig, stepName ) => {
 	const step = tourConfig[ stepName ] || false;
 	const shouldSkip = !! (
 		step &&
-		( step.showInContext && ! step.showInContext( state ) ) ||
-		( step.continueIf && step.continueIf( state ) )
+		( step.showInContext && ! step.showInContext( state ) )
+		//( step.continueIf && step.continueIf( state ) )
 	);
 	return shouldSkip
 		? getStepConfig( state, tourConfig, step.next )
@@ -214,5 +214,5 @@ export const getGuidedTourState = createSelector(
 			shouldShow,
 		};
 	},
-	[ getRawGuidedTourState, isSectionLoading, getActionLog ]
+	[ getRawGuidedTourState, isSectionLoading, getActionLog, getSectionName ]
 );

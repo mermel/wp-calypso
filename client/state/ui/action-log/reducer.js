@@ -11,6 +11,7 @@ import {
 	GUIDED_TOUR_UPDATE,
 	THEMES_RECEIVE,
 	PREVIEW_IS_SHOWING,
+	SET_SECTION,
 } from 'state/action-types';
 
 const isDesignRoute = ( { path } ) => 0 === path.indexOf( '/design' );
@@ -21,6 +22,7 @@ const relevantTypes = {
 	THEMES_RECEIVE,
 	PREVIEW_IS_SHOWING,
 	ROUTE_SET: isDesignRoute,
+	SET_SECTION,
 };
 
 const isRelevantAction = ( action ) =>

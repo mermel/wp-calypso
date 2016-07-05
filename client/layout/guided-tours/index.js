@@ -47,6 +47,11 @@ class GuidedTours extends Component {
 
 	componentWillUpdate( nextProps ) {
 		const { stepConfig } = nextProps.tourState;
+
+		stepConfig.continueIf &&
+		  stepConfig.continueIf( nextProps.state ) &&
+			this.next();
+			
 		this.updateTarget( stepConfig );
 	}
 
@@ -90,7 +95,7 @@ class GuidedTours extends Component {
 			);
 			this.quit( { error: ERROR_WAITED_TOO_LONG } );
 		};
-		wait( { condition: nextTargetFound, consequence: proceedToNextStep, onError: abortTour } );
+		setTimeout( () => wait( { condition: nextTargetFound, consequence: proceedToNextStep, onError: abortTour } ), 0 );;
 	}
 
 	quit( options = {} ) {
@@ -141,6 +146,7 @@ class GuidedTours extends Component {
 
 export default connect( ( state ) => ( {
 	tourState: getGuidedTourState( state ),
+	state,
 } ), {
 	nextGuidedTourStep,
 	quitGuidedTour,
