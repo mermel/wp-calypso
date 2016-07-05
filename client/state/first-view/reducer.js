@@ -33,28 +33,26 @@ export function firstView( state = { disabled: [], visible: [] }, action ) {
 
 		case DESERIALIZE: {
 			// only 'disabled' state is persisted
-			const newState = omit( state, 'visible', 'lastVisible' );
+			const newState = omit( state, 'visible' );
 			if ( isValidStateWithSchema( newState, firstViewSchema ) ) {
-				return Object.assign( {}, newState, { disabled: [], visible: [], lastVisible: null } );
+				return Object.assign( {}, newState, { disabled: [], visible: [] } );
 			}
 			debug( 'INVALID firstView state during DESERIALIZE', newState );
 			return {
 				disabled: [],
 				visible: [],
-				lastVisible: null,
 			};
 		}
 
 		case SERIALIZE: {
-			const newState = omit( state, 'visible', 'lastVisible' );
+			const newState = omit( state, 'visible' );
 			if ( isValidStateWithSchema( newState, firstViewSchema ) ) {
-				return Object.assign( {}, newState, { disabled: [], visible: [], lastVisible: null } );
+				return Object.assign( {}, newState, { disabled: [], visible: [] } );
 			}
 			debug( 'INVALID firstView state during SERIALIZE', newState );
 			return {
 				disabled: [],
 				visible: [],
-				lastVisible: null,
 			};
 		}
 
