@@ -381,6 +381,12 @@ const ThemeSheet = React.createClass( {
 	},
 } );
 
+const WrappedThemeSheet = ( props ) => (
+	<ThemesSiteSelectorModal { ...props } sourcePath={ props.path }>
+		<ThemeSheet />
+	</ThemesSiteSelectorModal>
+);
+
 export default connect(
 	( state ) => {
 		const selectedSite = getSelectedSite( state );
@@ -390,4 +396,4 @@ export default connect(
 		return { selectedSite, siteSlug, currentTheme, backPath };
 	},
 	{ signup, purchase, activate, customize }
-)( ThemeSheet );
+)( WrappedThemeSheet );

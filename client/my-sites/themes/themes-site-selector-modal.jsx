@@ -2,6 +2,7 @@
  * External dependencies
  */
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import page from 'page';
 import defer from 'lodash/defer';
 import omit from 'lodash/omit';
@@ -13,6 +14,7 @@ import mapValues from 'lodash/mapValues';
  */
 import Theme from 'components/theme';
 import SiteSelectorModal from 'components/site-selector-modal';
+import { getCurrentUser } from 'state/current-user/selectors';
 import { trackClick } from './helpers';
 
 const ThemesSiteSelectorModal = React.createClass( {
@@ -22,6 +24,7 @@ const ThemesSiteSelectorModal = React.createClass( {
 			header: React.PropTypes.string,
 			action: React.PropTypes.func
 		} ) ),
+		selectedSite: React.PropTypes.object,
 		// Will be prepended to site slug for a redirect on selection
 		sourcePath: PropTypes.string.isRequired,
 	},
@@ -60,11 +63,25 @@ const ThemesSiteSelectorModal = React.createClass( {
 	},
 
 	render() {
+		if ( ! this.props.isLoggedIn ) {
+			return React.cloneElement(
+				this.props.children,
+				omit( this.props, 'children' )
+			);
+		}
+
+		const { selectedSite } = this.props;
+
 		const wrappedOptions = mapValues( this.props.options,
 			option => Object.assign(
 				{},
 				option,
-				option.action ? { action: theme => this.showSiteSelectorModal( option, theme ) } : {}
+				option.action
+					? { action: selectedSite
+						? theme => option.action( theme, selectedSite )
+						: theme => this.showSiteSelectorModal( option, theme )
+					}
+					: {}
 			)
 		);
 
@@ -98,4 +115,8 @@ const ThemesSiteSelectorModal = React.createClass( {
 	}
 } );
 
-export default ThemesSiteSelectorModal;
+export default connect(
+	state => ( {
+		isLoggedIn: getCurrentUser( state )
+	} )
+)( ThemesSiteSelectorModal );
