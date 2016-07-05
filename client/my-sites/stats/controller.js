@@ -588,18 +588,20 @@ module.exports = {
 			);
 
 			ReactDom.render(
-				React.createElement( StatsSummaryComponent, {
-					date: date,
-					context: context,
-					path: context.pathname,
-					sites: sites,
-					filters: filters,
-					summaryList: summaryList,
-					visitsList: visitsList,
-					followList: followList,
-					siteId: siteId,
-					period: period
-				} ),
+				React.createElement( ReactRedux.Provider, { store: context.store },
+					React.createElement( StatsSummaryComponent, {
+						date: date,
+						context: context,
+						path: context.pathname,
+						sites: sites,
+						filters: filters,
+						summaryList: summaryList,
+						visitsList: visitsList,
+						followList: followList,
+						siteId: siteId,
+						period: period
+					} )
+				),
 				document.getElementById( 'primary' )
 			);
 		}
@@ -639,14 +641,16 @@ module.exports = {
 			analytics.pageView.record( '/stats/' + postOrPage + '/:post_id/:site', analyticsPageTitle + ' > Single ' + titlecase( postOrPage ) );
 
 			ReactDom.render(
-				React.createElement( StatsPostComponent, {
-					siteId: siteId,
-					postId: postId,
-					sites: sites,
-					context: context,
-					path: context.path,
-					postViewsList: postViewsList
-				} ),
+				React.createElement( ReactRedux.Provider, { store: context.store },
+					React.createElement( StatsPostComponent, {
+						siteId: siteId,
+						postId: postId,
+						sites: sites,
+						context: context,
+						path: context.path,
+						postViewsList: postViewsList
+					} )
+				),
 				document.getElementById( 'primary' )
 			);
 		}
@@ -709,18 +713,20 @@ module.exports = {
 			);
 
 			ReactDom.render(
-				React.createElement( FollowsComponent, {
-					path: context.path,
-					sites: sites,
-					siteId: siteId,
-					page: pageNum,
-					perPage: 20,
-					total: 10,
-					followersList: followersList,
-					followType: followType,
-					followList: followList,
-					domain: siteDomain
-				} ),
+				React.createElement( ReactRedux.Provider, { store: context.store },
+					React.createElement( FollowsComponent, {
+						path: context.path,
+						sites: sites,
+						siteId: siteId,
+						page: pageNum,
+						perPage: 20,
+						total: 10,
+						followersList: followersList,
+						followType: followType,
+						followList: followList,
+						domain: siteDomain
+					} )
+				),
 				document.getElementById( 'primary' )
 			);
 		}

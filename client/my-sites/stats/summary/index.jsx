@@ -14,7 +14,9 @@ var observe = require( 'lib/mixins/data-observe' ),
 	StatsStrings = require( '../stats-strings' )(),
 	Countries = require( '../stats-countries' ),
 	SummaryChart = require( '../stats-summary-chart' ),
-	VideoPlayDetails = require( '../stats-video-details' );
+	VideoPlayDetails = require( '../stats-video-details' ),
+	Main = require( 'components/main' ),
+	StatsFirstView = require( '../stats-first-view' );
 
 module.exports = React.createClass( {
 	displayName: 'StatsSummary',
@@ -190,14 +192,16 @@ module.exports = React.createClass( {
 		summaryViews.push( summaryView );
 
 		return (
-			<div className="main main-column" role="main">
+			<Main>
+				<StatsFirstView />
+
 				<div id="my-stats-content">
 					<HeaderCake onClick={ this.goBack }>
 						{ title }
 					</HeaderCake>
 					{ summaryViews }
 				</div>
-			</div>
+			</Main>
 		);
 	}
 } );

@@ -24,6 +24,7 @@ var StatsNavigation = require( './stats-navigation' ),
 	config = require( 'config' ),
 	user = require( 'lib/user' )(),
 	Gridicon = require( 'components/gridicon' ),
+	Main = require( 'components/main' ),
 	StatsFirstView = require( './stats-first-view' );
 
 module.exports = React.createClass( {
@@ -173,7 +174,7 @@ module.exports = React.createClass( {
 		}
 
 		return (
-			<div className="main main-column" role="main">
+			<Main>
 				<StatsFirstView />
 				<SidebarNavigation />
 				<StatsNavigation
@@ -249,7 +250,7 @@ module.exports = React.createClass( {
 					</div>
 					{ nonPeriodicModules }
 				</div>
-			</div>
+			</Main>
 		);
 	}
 } );
