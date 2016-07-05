@@ -300,7 +300,8 @@ input[type=radio].domain-management-list-item__radio {
 	}
 }
 
-.edit-contact-info-privacy-enabled-card__settings-explanation {
+.edit-contact-info-privacy-enabled-card__settings-explanation,
+.domain-management-non-owner-card__explanation {
 	color: $gray;
 	display: block;
 	font-size: 13px;
