@@ -103,7 +103,7 @@ export const plansList = {
 		getPathSlug: () => 'premium',
 		getStoreSlug: () => PLAN_PREMIUM,
 		availableFor: ( plan ) => includes( [ PLAN_FREE, PLAN_PERSONAL ], plan ),
-		getDescription: () => i18n.translate( 'Your own domain name, powerful customization options, lots of space for audio and video, and $100 advertising credit.' ),
+		getDescription: () => i18n.translate( 'Your own domain name, powerful customization options, lots of space for audio and video, and $100 advertising vouchers.' ),
 		getFeatures: () => [ // pay attention to ordering, it is used on /plan page
 			FEATURE_FREE_SITE,
 			FEATURE_CUSTOM_DOMAIN,
@@ -127,7 +127,7 @@ export const plansList = {
 		availableFor: ( plan ) => includes( [ PLAN_FREE, PLAN_PERSONAL, PLAN_PREMIUM ], plan ),
 		getPathSlug: () => 'business',
 		getDescription: () => i18n.translate( 'Everything included with Premium, as well as live chat support, unlimited access to premium themes, and Google Analytics.' ),
-		getDescriptionWithWordAdsCredit: () => i18n.translate( 'Everything included with Premium, as well as live chat support, unlimited access to premium themes, Google Analytics, and $200 advertising credit.' ),
+		getDescriptionWithWordAdsCredit: () => i18n.translate( 'Everything included with Premium, as well as live chat support, unlimited access to premium themes, Google Analytics, and $200 advertising vouchers.' ),
 		getFeatures: () => [ // pay attention to ordering, it is used on /plan page
 			FEATURE_FREE_SITE,
 			FEATURE_CUSTOM_DOMAIN,
@@ -285,9 +285,9 @@ export const featuresList = {
 	},
 
 	[ FEATURE_GOOGLE_AD_CREDITS ]: {
-		getTitle: () => i18n.translate( 'Advertising Credit' ),
-		getDescription: () => i18n.translate( '$100 Google AdWords credit after spending the first $25. Offer valid in US and Canada.' ),
-		getDescriptionWithWordAdsCredit: () => i18n.translate( '$100 Google AdWords credit after spending the first $25. ' +
+		getTitle: () => i18n.translate( 'Advertising Vouchers' ),
+		getDescription: () => i18n.translate( '$100 Google AdWords voucher after spending the first $25. Offer valid in US and Canada.' ),
+		getDescriptionWithWordAdsCredit: () => i18n.translate( '$100 Google AdWords voucher after spending the first $25. ' +
 			'Offer valid in US and Canada. {{hr/}}Business also includes $100 of advertising from WordAds on WordPress.com.', {
 				components: {
 					hr: <hr className="plans-compare__info-hr"/>
