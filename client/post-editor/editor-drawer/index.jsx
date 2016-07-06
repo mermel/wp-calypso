@@ -117,9 +117,7 @@ const EditorDrawer = React.createClass( {
 		if ( config.isEnabled( 'manage/custom-post-types' ) &&
 				! includes( [ 'post', 'page' ], this.props.type ) ) {
 			return (
-				<EditorDrawerTaxonomies
-					postTerms={ this.props.post && this.props.post.terms }
-				/>
+				<EditorDrawerTaxonomies />
 			);
 		}
 

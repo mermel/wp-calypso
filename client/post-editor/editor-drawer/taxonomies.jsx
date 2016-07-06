@@ -17,7 +17,7 @@ import Accordion from 'components/accordion';
 import Gridicon from 'components/gridicon';
 import TermTokenField from 'post-editor/term-token-field';
 
-function EditorDrawerTaxonomies( { siteId, postType, postTerms, taxonomies } ) {
+function EditorDrawerTaxonomies( { siteId, postType, taxonomies } ) {
 	return (
 		<div className="editor-drawer__taxonomies">
 			{ siteId && postType && (
@@ -47,7 +47,6 @@ function EditorDrawerTaxonomies( { siteId, postType, postTerms, taxonomies } ) {
 							icon={ <Gridicon icon="tag" /> }
 						>
 							<TermTokenField
-								postTerms={ postTerms }
 								taxonomyName={ taxonomy.name }
 							/>
 						</Accordion>
@@ -61,7 +60,6 @@ function EditorDrawerTaxonomies( { siteId, postType, postTerms, taxonomies } ) {
 EditorDrawerTaxonomies.propTypes = {
 	siteId: PropTypes.number,
 	postType: PropTypes.string,
-	postTerms: PropTypes.object,
 	taxonomies: PropTypes.array
 };
 
