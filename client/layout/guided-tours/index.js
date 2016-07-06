@@ -12,6 +12,7 @@ import { localize } from 'i18n-calypso';
 import scrollTo from 'lib/scroll-to';
 import { getGuidedTourState } from 'state/ui/guided-tours/selectors';
 import { nextGuidedTourStep, quitGuidedTour } from 'state/ui/guided-tours/actions';
+import { isSectionLoading } from 'state/ui/selectors';
 import { errorNotice } from 'state/notices/actions';
 import { getScrollableSidebar, query } from './positioning';
 import {
@@ -52,7 +53,8 @@ class GuidedTours extends Component {
 		console.log( 'SHOULD UPDATE?', this.props.tourState, nextProps.tourState );
 		return (
 			( this.props.tourState.stepConfig !== nextProps.tourState.stepConfig ) ||
-			//( this.props.tourState.tour !== nextProps.tourState.tour ) ||
+			( this.props.sectionLoading !== nextProps.sectionLoading ) ||
+			( this.props.tourState.tour !== nextProps.tourState.tour ) ||
 			( this.props.tourState.shouldShow !== nextProps.tourState.shouldShow )
 		);
 	}
@@ -123,9 +125,9 @@ class GuidedTours extends Component {
 	}
 
 	render() {
-		const { stepConfig, shouldShow } = this.props.tourState;
+		const { stepConfig, shouldShow, sectionLoading } = this.props.tourState;
 
-		if ( ! shouldShow || ! stepConfig ) {
+		if ( ! shouldShow || ! stepConfig || sectionLoading ) {
 			return null;
 		}
 
@@ -155,6 +157,7 @@ class GuidedTours extends Component {
 
 export default connect( ( state ) => ( {
 	tourState: getGuidedTourState( state ),
+	sectionLoading: isSectionLoading( state ),
 	state,
 } ), {
 	nextGuidedTourStep,
