@@ -115,7 +115,8 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
 					action: theme => dispatchProps.customize( theme, site, 'showcase' ),
 				}
 				: dispatchProps.preview
-		}
+		},
+		getSheetOptions( site, isJetpack )
 	);
 
 	return Object.assign(
