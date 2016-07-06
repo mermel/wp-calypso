@@ -33,9 +33,13 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => Object.assign(
 	ownProps,
 	stateProps,
 	{
-		options: dispatchProps,
+		options: Object.assign(
+			{},
+			dispatchProps,
+			getSheetOptions()
+		),
 		defaultOption: dispatchProps.tryandcustomize,
-		getScreenshotOption: () => dispatchProps.info
+		getScreenshotOption: () => getSheetOptions().info
 	}
 );
 
@@ -44,15 +48,11 @@ export default connect(
 		queryParams: getQueryParams( state ),
 		themesList: getThemesList( state )
 	} ),
-	bindOptionsToDispatch( Object.assign(
-		{},
-		{
-			preview,
-			purchase,
-			activate,
-			tryandcustomize
-		},
-		getSheetOptions()
-	), 'showcase' ),
+	bindOptionsToDispatch( {
+		preview,
+		purchase,
+		activate,
+		tryandcustomize
+	}, 'showcase' ),
 	mergeProps
 )( ThemesMultiSite );

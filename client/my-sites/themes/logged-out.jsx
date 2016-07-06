@@ -15,9 +15,13 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => Object.assign(
 	ownProps,
 	stateProps,
 	{
-		options: dispatchProps,
+		options: Object.assign(
+			{},
+			dispatchProps,
+			getSheetOptions()
+		),
 		defaultOption: dispatchProps.signup,
-		getScreenshotOption: () => dispatchProps.info
+		getScreenshotOption: () => getSheetOptions().info
 	}
 );
 
@@ -26,13 +30,9 @@ export default connect(
 		queryParams: getQueryParams( state ),
 		themesList: getThemesList( state )
 	} ),
-	bindOptionsToDispatch( Object.assign(
-		{},
-		{
-			signup,
-			preview
-		},
-		getSheetOptions()
-	), 'showcase' ),
+	bindOptionsToDispatch( {
+		signup,
+		preview
+	}, 'showcase' ),
 	mergeProps
 )( ThemeShowcase );
