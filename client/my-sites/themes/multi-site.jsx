@@ -26,7 +26,7 @@ const ThemeShowcaseWithSidebarNavigation = ( props ) => (
 		</ThemeShowcase>
 );
 
-const ThemesMultiSite = wrapThemeOptionsWithSiteSelector( ThemeShowcaseWithSidebarNavigation, '/design' );
+const ThemesMultiSite = wrapThemeOptionsWithSiteSelector( '/design' )( ThemeShowcaseWithSidebarNavigation );
 
 const mergeProps = ( stateProps, dispatchProps, ownProps ) => Object.assign(
 	{},

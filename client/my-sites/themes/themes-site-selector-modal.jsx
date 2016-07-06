@@ -101,8 +101,8 @@ const ThemesSiteSelectorModal = React.createClass( {
 	}
 } );
 
-export function wrapThemeOptionsWithSiteSelector( Component, sourcePath ) {
-	return props => (
+export function wrapThemeOptionsWithSiteSelector( sourcePath ) {
+	return Component => props => (
 		<ThemesSiteSelectorModal { ...props } sourcePath={ sourcePath }>
 			<Component />
 		</ThemesSiteSelectorModal>
