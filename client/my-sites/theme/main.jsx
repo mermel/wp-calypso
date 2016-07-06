@@ -25,7 +25,6 @@ import NavTabs from 'components/section-nav/tabs';
 import NavItem from 'components/section-nav/item';
 import Card from 'components/card';
 import Gridicon from 'components/gridicon';
-import { signup, purchase, activate, customize } from 'state/themes/actions';
 import { getSelectedSite } from 'state/ui/selectors';
 import { getSiteSlug } from 'state/sites/selectors';
 import { isPremium, getForumUrl } from 'my-sites/themes/helpers';
@@ -33,7 +32,13 @@ import ThanksModal from 'my-sites/themes/thanks-modal';
 import QueryCurrentTheme from 'components/data/query-current-theme';
 import { getCurrentTheme } from 'state/themes/current-theme/selectors';
 import ThemesSiteSelectorModal from 'my-sites/themes/themes-site-selector-modal';
-import themeOptions from 'my-sites/themes/theme-options';
+import {
+	signup,
+	purchase,
+	activate,
+	customize,
+	bindOptionsToDispatch
+} from 'my-sites/themes/theme-options';
 import { getBackPath } from 'state/themes/themes-ui/selectors';
 import EmptyContentComponent from 'components/empty-content';
 import ThemePreview from 'my-sites/themes/theme-preview';
@@ -71,15 +76,13 @@ const ThemeSheet = React.createClass( {
 	},
 
 	getInitialState() {
-		return { selectedAction: null };
+		return {
+			showPreview: false,
+		};
 	},
 
 	componentDidMount() {
 		window.scroll( 0, 0 );
-	},
-
-	hideSiteSelectorModal() {
-		this.setState( { selectedAction: null } );
 	},
 
 	isActive() {
@@ -88,31 +91,11 @@ const ThemeSheet = React.createClass( {
 	},
 
 	onPrimaryClick() {
-		if ( ! this.props.isLoggedIn ) {
-			this.props.signup( this.props );
-		} else if ( this.isActive() ) {
-			this.props.customize( this.props, this.props.selectedSite );
-		} else if ( this.props.price ) {
-			this.selectSiteAndDispatch( 'purchase' );
-		} else {
-			this.selectSiteAndDispatch( 'activate' );
-		}
+		this.props.options.default.action( this.props, this.props.selectedSite );
 	},
 
 	onPreviewButtonClick() {
-		if ( ! this.props.isLoggedIn ) {
-			this.props.signup( this.props );
-		} else {
-			this.selectSiteAndDispatch( 'customize' );
-		}
-	},
-
-	selectSiteAndDispatch( action ) {
-		if ( this.props.selectedSite ) {
-			this.props[ action ]( this.props, this.props.selectedSite, 'showcase-sheet' );
-		} else {
-			this.setState( { selectedAction: action } );
-		}
+		this.props.options.default.action( this.props, this.props.selectedSite );
 	},
 
 	getValidSections() {
@@ -271,7 +254,7 @@ const ThemeSheet = React.createClass( {
 	},
 
 	renderPreview() {
-		const buttonLabel = this.props.isLoggedIn ? i18n.translate( 'Try & Customize' ) : i18n.translate( 'Pick this design' );
+		const buttonLabel = this.props.options.default.label;
 		return (
 			<ThemePreview showPreview={ this.state.showPreview }
 				theme={ this.props }
@@ -318,9 +301,8 @@ const ThemeSheet = React.createClass( {
 
 	renderSheet() {
 		let actionTitle = <span className="theme__sheet-button-placeholder">loading......</span>;
-		if ( this.isActive() ) {
-			actionTitle = i18n.translate( 'Customize' );
-		} else if ( this.props.name ) {
+		actionTitle = this.props.options.default.label;
+		if ( ! this.isActive() && this.props.name ) {
 			actionTitle = i18n.translate( 'Pick this design' );
 		}
 
@@ -339,15 +321,6 @@ const ThemeSheet = React.createClass( {
 				<ThanksModal
 					site={ this.props.selectedSite }
 					source={ 'details' }/>
-				{ this.state.selectedAction && <ThemesSiteSelectorModal
-					name={ this.state.selectedAction }
-					label={ themeOptions[ this.state.selectedAction ].label }
-					header={ themeOptions[ this.state.selectedAction ].header }
-					selectedTheme={ this.props }
-					onHide={ this.hideSiteSelectorModal }
-					action={ this.props[ this.state.selectedAction ] }
-					sourcePath={ `/theme/${ this.props.id }${ section ? '/' + section : '' }` }
-				/> }
 				{ this.state.showPreview && this.renderPreview() }
 				<HeaderCake className="theme__sheet-action-bar"
 							backHref={ this.props.backPath }
@@ -382,10 +355,38 @@ const ThemeSheet = React.createClass( {
 } );
 
 const WrappedThemeSheet = ( props ) => (
-	<ThemesSiteSelectorModal { ...props } sourcePath={ props.path }>
+	<ThemesSiteSelectorModal { ...props }
+		sourcePath={ `/theme/${ props.id }${ props.section ? '/' + props.section : '' }` }>
 		<ThemeSheet />
 	</ThemesSiteSelectorModal>
 );
+
+const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
+	const { id, price, isLoggedIn } = ownProps;
+	const { currentTheme } = stateProps;
+	const isActive = currentTheme && currentTheme.id === id;
+
+	let defaultOption;
+
+	if ( ! isLoggedIn ) {
+		defaultOption = dispatchProps.signup;
+	} else if ( isActive ) {
+		defaultOption = dispatchProps.customize;
+	} else if ( price ) {
+		defaultOption = dispatchProps.purchase;
+	} else {
+		defaultOption = dispatchProps.activate;
+	}
+
+	return Object.assign(
+		{},
+		ownProps,
+		stateProps,
+		{
+			options: { 'default': defaultOption },
+		}
+	);
+};
 
 export default connect(
 	( state ) => {
@@ -395,5 +396,11 @@ export default connect(
 		const backPath = getBackPath( state );
 		return { selectedSite, siteSlug, currentTheme, backPath };
 	},
-	{ signup, purchase, activate, customize }
+	bindOptionsToDispatch( {
+		signup,
+		purchase,
+		activate,
+		customize
+	}, 'showcase-sheet' ),
+	mergeProps
 )( WrappedThemeSheet );
