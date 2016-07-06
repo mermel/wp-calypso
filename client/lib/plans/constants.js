@@ -246,28 +246,38 @@ const allPlans = [
 export const featuresList = {
 	[ FEATURE_GOOGLE_ANALYTICS ]: {
 		getTitle: () => i18n.translate( 'Google Analytics' ),
+		getDescription: () => i18n.translate( 'Track website statistics with Google Analytics for a' +
+			' deeper understanding of your website visitors and customers.' ),
 		plans: [ PLAN_BUSINESS ]
 	},
 
 	[ FEATURE_UNLIMITED_STORAGE ]: {
 		getTitle: () => i18n.translate( 'Unlimited Storage' ),
+		getDescription: () => i18n.translate( "With increased storage space you'll be able to upload" +
+			' more images, videos, audio, and documents to your website.' ),
 		getStoreSlug: () => 'unlimited_space',
 		plans: [ PLAN_BUSINESS ]
 	},
 
 	[ FEATURE_CUSTOM_DOMAIN ]: {
 		getTitle: () => i18n.translate( 'Custom Domain' ),
+		getDescription: () => i18n.translate( 'Get a free custom domain name (mywebsite.com) with this plan' +
+			' to use for your website.' ),
 		plans: allPaidPlans
 	},
 
 	[ FEATURE_UNLIMITED_PREMIUM_THEMES ]: {
 		getTitle: () => i18n.translate( 'Unlimited Premium Themes' ),
+		getDescription: () => i18n.translate( 'Unlimited access to all of our advanced premium theme templates,' +
+			' including templates specifically tailored for businesses.' ),
 		getStoreSlug: () => 'unlimited_themes',
 		plans: [ PLAN_BUSINESS ]
 	},
 
 	[ FEATURE_VIDEO_UPLOADS ]: {
 		getTitle: () => i18n.translate( 'VideoPress' ),
+		getDescription: () => i18n.translate( 'The easiest way to upload videos to your website and display them' +
+			' using a fast, unbranded, customizable player with rich stats.' ),
 		getStoreSlug: () => 'videopress',
 		plans: allPaidPlans
 	},
@@ -280,6 +290,8 @@ export const featuresList = {
 
 	[ FEATURE_NO_ADS ]: {
 		getTitle: () => i18n.translate( 'No Ads' ),
+		getDescription: () => i18n.translate( 'Allow your visitors to visit and read your website without' +
+			' seeing any WordPress.com advertising.' ),
 		getStoreSlug: () => 'no-adverts/no-adverts.php',
 		plans: allPaidPlans
 	},
@@ -299,7 +311,8 @@ export const featuresList = {
 
 	[ WORDADS_INSTANT ]: {
 		getTitle: () => i18n.translate( 'Monetize Your Site' ),
-		getDescription: () => i18n.translate( 'Add advertising to your site through our WordAds program and get paid.' ),
+		getDescription: () => i18n.translate( 'Add advertising to your site through our WordAds program and' +
+			' earn money from impressions.' ),
 		plans: allPaidPlans
 	},
 
@@ -315,16 +328,22 @@ export const featuresList = {
 
 	[ FEATURE_FREE_THEMES ]: {
 		getTitle: () => i18n.translate( 'Hundreds of free themes' ),
+		getDescription: () => i18n.translate( 'Access to a wide range of professional theme templates' +
+			" for your website so you can find the exact design you're looking for." ),
 		plans: [ PLAN_FREE, PLAN_PREMIUM ]
 	},
 
 	[ FEATURE_3GB_STORAGE ]: {
 		getTitle: () => i18n.translate( '3GB of storage' ),
+		getDescription: () => i18n.translate( "With increased storage space you'll be able to upload" +
+			' more images, videos, audio, and documents to your website.' ),
 		plans: [ PLAN_FREE ]
 	},
 
 	[ FEATURE_13GB_STORAGE ]: {
 		getTitle: () => i18n.translate( '13GB of storage' ),
+		getDescription: () => i18n.translate( "With increased storage space you'll be able to upload" +
+			' more images, videos, audio, and documents to your website.' ),
 		plans: [ PLAN_PREMIUM ]
 	},
 
@@ -335,6 +354,8 @@ export const featuresList = {
 
 	[ FEATURE_EMAIL_LIVE_CHAT_SUPPORT ]: {
 		getTitle: () => i18n.translate( 'Email and live chat support' ),
+		getDescription: () => i18n.translate( 'High quality support to help you get your website up and running' +
+			' and working how you want it.' ),
 		plans: allPaidPlans
 	},
 	[ FEATURE_SPAM_AKISMET_PLUS ]: {
