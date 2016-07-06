@@ -4,28 +4,9 @@ $plan-features-header-banner-height: 20px;
 	margin: 0 0 16px;
 	border: solid 1px lighten( $gray, 27% );
 	background-color: lighten( $gray, 35% );
-
-	&.is-popular {
-		$top-margin: 15px;
-
-		margin-top: $plan-features-header-banner-height + $top-margin;
-	}
-
-	@include breakpoint( ">1040px" ) {
-		display: flex;
-		flex-direction: column;
-		align-items: stretch;
-		flex: 1;
-		margin: 0 0 24px 24px;
-
-		&.is-popular {
-			margin-top: 0;
-		}
-
-		&:first-child {
-			margin-left: 0;
-		}
-	}
+	font-size: 14px;
+	color: $gray;
+	table-layout: fixed;
 }
 
 .plan-features__header {
@@ -179,11 +160,16 @@ $plan-features-header-banner-height: 20px;
 }
 
 .plan-features__item-list {
-	list-style: none;
+
+}
+
+.plan-features__description {
 	margin: 0;
+	padding: 24px;
 }
 
 .plan-features__item {
+	list-style: none;
 	position: relative;
 	margin: 0 24px;
 	padding: 12px 0 12px 30px;
@@ -232,25 +218,13 @@ $plan-features-header-banner-height: 20px;
 }
 
 .plan-features__footer {
-	margin-top: auto;
-	padding: 16px 16px 24px;
-	border-top: solid 1px lighten( $gray, 27% );
-
-	@include breakpoint( ">480px" ) {
-		padding: 16px 24px 24px;
-	}
+	padding: 0 16px 24px;
 }
 
 .plan-features__footer-desc {
 	margin: 0;
 	font-size: 14px;
 	color: $gray;
-
-	&.is-placeholder {
-		@include placeholder( 23% );
-		height: 50px;
-		margin-top: 5px;
-	}
 }
 
 .plan-features__footer-buttons {
@@ -260,10 +234,6 @@ $plan-features-header-banner-height: 20px;
 .plan-features__footer-button {
 	width: 100%;
 	margin-top: 8px;
-
-	&:first-child {
-		margin-top: 16px;
-	}
 
 	&.is-current {
 		border-bottom-width: 1px;

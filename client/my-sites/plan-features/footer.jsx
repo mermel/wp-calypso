@@ -11,7 +11,7 @@ import React, { PropTypes } from 'react';
 import Button from 'components/button';
 import Gridicon from 'components/gridicon';
 
-const PlanFeaturesFooter = ( { translate, current = false, available = true, description, onUpgradeClick = noop } ) => {
+const PlanFeaturesFooter = ( { translate, current = false, available = true, onUpgradeClick = noop } ) => {
 	let upgradeButton;
 
 	if ( current ) {
@@ -31,7 +31,6 @@ const PlanFeaturesFooter = ( { translate, current = false, available = true, des
 
 	return (
 		<footer className="plan-features__footer">
-			<p className="plan-features__footer-desc">{ description }</p>
 			<div className="plan-features__footer-buttons">
 				{ upgradeButton }
 			</div>
@@ -42,7 +41,6 @@ const PlanFeaturesFooter = ( { translate, current = false, available = true, des
 PlanFeaturesFooter.propTypes = {
 	current: PropTypes.bool,
 	available: PropTypes.bool,
-	description: PropTypes.string.isRequired,
 	onUpgradeClick: PropTypes.func
 };
 
