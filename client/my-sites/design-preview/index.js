@@ -13,7 +13,8 @@ import url from 'url';
  */
 import config from 'config';
 import WebPreview from 'components/web-preview';
-import { fetchPreviewMarkup, undoCustomization, clearCustomizations, clearPreviewSlug } from 'state/preview/actions';
+import { clearPreviewSlug } from 'state/ui/actions';
+import { fetchPreviewMarkup, undoCustomization, clearCustomizations } from 'state/preview/actions';
 import accept from 'lib/accept';
 import { updatePreviewWithChanges } from 'lib/design-preview';
 import layoutFocus from 'lib/layout-focus';
