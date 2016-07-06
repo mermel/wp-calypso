@@ -129,7 +129,7 @@ const DesignPreview = React.createClass( {
 			return;
 		}
 		debug( 'loading preview with customizations', this.props.customizations );
-		this.props.fetchPreviewMarkup( this.props.selectedSiteId, '', this.props.customizations );
+		this.props.fetchPreviewMarkup( this.props.selectedSiteId, this.props.previewSlug, this.props.customizations );
 	},
 
 	undoCustomization() {
