@@ -5,6 +5,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { map, reduce, noop } from 'lodash';
 import page from 'page';
+import classNames from 'classnames';
 
 /**
  * Internal dependencies
@@ -33,14 +34,111 @@ import { getPlanPath, canUpgradeToPlan } from 'lib/plans';
 import { planItem as getCartItemForPlan } from 'lib/cart-values/cart-items';
 
 class PlanFeatures extends Component {
-
 	render() {
-		const { isPlaceholder, planProperties } = this.props;
+		const { isPlaceholder } = this.props;
 
 		if ( isPlaceholder ) {
 			//TODO: update placeholder
 			return null;
 		}
+
+		return (
+			<div className="plan-features">
+				<table className="plan-features__table">
+					<tbody>
+						<tr>
+							{ this.renderPlanHeaders() }
+						</tr>
+						<tr>
+							{ this.renderPlanDescriptions() }
+						</tr>
+						<tr>
+							{ this.renderTopButtons() }
+						</tr>
+						{ this.renderPlanFeatureLists() }
+						<tr>
+							{ this.renderBottomButtons() }
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		);
+	}
+
+	renderPlanHeaders() {
+		const { planProperties } = this.props;
+
+		return map( planProperties, ( properties ) => {
+			const {
+				currencyCode,
+				current,
+				discountPrice,
+				onUpgradeClick,
+				planConstantObj,
+				planName,
+				popular,
+				rawPrice
+			} = properties;
+			return (
+				<td key={ planName } className="plan-features__table-item has-border-top">
+					<PlanFeaturesHeader
+						current={ current }
+						currencyCode={ currencyCode }
+						popular={ popular }
+						title={ planConstantObj.getTitle() }
+						planType={ planName }
+						rawPrice={ rawPrice }
+						discountPrice={ discountPrice }
+						billingTimeFrame={ planConstantObj.getBillingTimeFrame() }
+						onClick={ onUpgradeClick }
+					/>
+				</td>
+			);
+		} );
+	}
+
+	renderPlanDescriptions() {
+		const { planProperties } = this.props;
+
+		return map( planProperties, ( properties ) => {
+			const {
+				planName,
+				planConstantObj
+			} = properties;
+			return (
+				<td key={ planName } className="plan-features__table-item">
+					<p className="plan-features__description">
+						{ planConstantObj.getDescription() }
+					</p>
+				</td>
+			);
+		} );
+	}
+
+	renderTopButtons() {
+		const { planProperties } = this.props;
+
+		return map( planProperties, ( properties ) => {
+			const {
+				available,
+				current,
+				onUpgradeClick,
+				planName
+			} = properties;
+			return (
+				<td key={ planName } className="plan-features__table-item has-border-bottom">
+					<PlanFeaturesFooter
+						current={ current }
+						available = { available }
+						onUpgradeClick={ onUpgradeClick }
+					/>
+				</td>
+			);
+		} );
+	}
+
+	renderPlanFeatureLists() {
+		const { planProperties } = this.props;
 
 		const longestFeatures = reduce( planProperties, ( longest, properties ) => {
 			const currentFeatures = properties.features;
@@ -49,131 +147,59 @@ class PlanFeatures extends Component {
 				: longest;
 		}, [] );
 
-		return (
-			<table className="plan-features">
-				<tbody>
-					<tr>
-						{
-							map( planProperties, ( properties ) => {
-								const {
-									currencyCode,
-									current,
-									discountPrice,
-									onUpgradeClick,
-									planConstantObj,
-									planName,
-									popular,
-									rawPrice
-								} = properties;
-								return (
-									<td key={ planName } >
-										<PlanFeaturesHeader
-											current={ current }
-											currencyCode={ currencyCode }
-											popular={ popular }
-											title={ planConstantObj.getTitle() }
-											planType={ planName }
-											rawPrice={ rawPrice }
-											discountPrice={ discountPrice }
-											billingTimeFrame={ planConstantObj.getBillingTimeFrame() }
-											onClick={ onUpgradeClick }
-										/>
-									</td>
-								);
-							} )
-						}
-					</tr>
-					<tr>
-						{
-							map( planProperties, ( properties ) => {
-								const {
-									planName,
-									planConstantObj
-								} = properties;
-								return (
-									<td key={ planName }>
-										<p className="plan-features__description">
-											{ planConstantObj.getDescription() }
-										</p>
-									</td>
-								);
-							} )
-						}
-					</tr>
-					<tr>
-						{
-							map( planProperties, ( properties ) => {
-								const {
-									available,
-									current,
-									onUpgradeClick,
-									planName
-								} = properties;
-								return (
-									<td key={ planName }>
-										<PlanFeaturesFooter
-											current={ current }
-											available = { available }
-											onUpgradeClick={ onUpgradeClick }
-										/>
-									</td>
-								);
-							} )
-						}
-					</tr>
+		return map( longestFeatures, ( feature, index ) => {
+			return (
+				<tr>
 					{
-						map( longestFeatures, ( feature, index ) => {
+						map( planProperties, ( properties ) => {
+							const {
+								features,
+								planName
+							} = properties;
+							const classes = classNames( {
+								'is-last-item': index + 1 === features.length
+							} );
+							const currentFeature = features[ index ];
 							return (
-								<tr>
-									{
-										map( planProperties, ( properties ) => {
-											const {
-												features,
-												planName
-											} = properties;
-											const currentFeature = features[ index ];
-											return (
-												currentFeature
-													? <td key={ `${ planName }-${ currentFeature.getTitle() }` }>
-														<PlanFeaturesItem
-															description={ currentFeature.getDescription
-															? currentFeature.getDescription()
-															: null }>
-															{ currentFeature.getTitle() }
-														</PlanFeaturesItem>
-													</td>
-													: <td></td>
-												);
-										} )
-									}
-								</tr>
+								currentFeature
+									? <td key={ `${ planName }-${ currentFeature.getTitle() }` } className="plan-features__table-item">
+										<PlanFeaturesItem className={ classes } description={
+											currentFeature.getDescription
+												? currentFeature.getDescription()
+												: null
+										}>
+											{ currentFeature.getTitle() }
+										</PlanFeaturesItem>
+									</td>
+									: <td key={ `${ planName }-none` } className="plan-features__table-item"></td>
 							);
 						} )
 					}
-					<tr>
-						{
-							map( planProperties, ( properties ) => {
-								const {
-									available,
-									current,
-									onUpgradeClick,
-									planName
-								} = properties;
-								return (
-									<td key={ planName }>
-										<PlanFeaturesFooter
-											current={ current }
-											available = { available }
-											onUpgradeClick={ onUpgradeClick }
-										/>
-									</td>
-								);
-							} )
-						}
-					</tr>
-				</tbody>
-			</table>
-		);
+				</tr>
+			);
+		} );
+	}
+
+	renderBottomButtons() {
+		const { planProperties } = this.props;
+
+		return map( planProperties, ( properties ) => {
+			const {
+				available,
+				current,
+				onUpgradeClick,
+				planName
+			} = properties;
+			return (
+				<td key={ planName } className="plan-features__table-item has-border-bottom">
+					<PlanFeaturesFooter
+						current={ current }
+						available = { available }
+						onUpgradeClick={ onUpgradeClick }
+					/>
+				</td>
+			);
+		} );
 	}
 }
 
@@ -201,7 +227,7 @@ export default connect( ( state, ownProps ) => {
 		const isPaid = isCurrentPlanPaid( state, selectedSiteId );
 		const sitePlans = getPlansBySiteId( state, selectedSiteId );
 		const isLoadingSitePlans = ! isInSignup && ! sitePlans.hasLoadedFromServer;
-		const showMonthly = ! isMonthly( ownProps.plan );
+		const showMonthly = ! isMonthly( plan );
 		const available = isInSignup ? true : canUpgradeToPlan( plan );
 
 		if ( placeholder || ! planObject || isLoadingSitePlans ) {
