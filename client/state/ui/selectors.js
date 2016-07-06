@@ -78,3 +78,15 @@ export function isSectionIsomorphic( state ) {
 export function isPreviewShowing( state ) {
 	return get( state.ui, 'isPreviewShowing', false );
 }
+
+/**
+ * Returns the URL path slug if DesignPreview currently has one.
+ *
+ * @param  {Object}  state Global state tree
+ * @return {?String}  The slug or null
+ *
+ * @see client/components/design-preview
+ */
+export function getPreviewSlug( state ) {
+	return get( state.ui, 'currentPreviewSlug', null );
+}

@@ -11,17 +11,12 @@ const siteInitialState = {
 	previousCustomizations: [],
 	customizations: {},
 	isUnsaved: false,
-	currentSlug: null,
 	previewMarkup: '',
 };
 
 function siteReducer( newState = siteInitialState, action ) {
 	const state = Object.assign( {}, siteInitialState, newState );
 	switch ( action.type ) {
-		case ActionTypes.PREVIEW_SLUG_CLEAR:
-			return Object.assign( {}, state, { currentSlug: null } );
-		case ActionTypes.PREVIEW_SLUG_SET:
-			return Object.assign( {}, state, { currentSlug: action.slug } );
 		case ActionTypes.PREVIEW_MARKUP_RECEIVE:
 			if ( action.markup === state.previewMarkup ) {
 				return state;
@@ -56,8 +51,6 @@ export default function( newState = initialState, action ) {
 		case ActionTypes.PREVIEW_CUSTOMIZATIONS_UPDATE:
 		case ActionTypes.PREVIEW_CUSTOMIZATIONS_UNDO:
 		case ActionTypes.PREVIEW_CUSTOMIZATIONS_SAVED:
-		case ActionTypes.PREVIEW_SLUG_CLEAR:
-		case ActionTypes.PREVIEW_SLUG_SET:
 			return Object.assign( {}, state, { [ action.siteId ]: siteReducer( state[ action.siteId ], action ) } );
 		case ActionTypes.SERIALIZE:
 			return state;

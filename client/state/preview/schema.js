@@ -8,7 +8,6 @@ export const previewSchema = {
 			required: [
 				'previewMarkup',
 				'previousCustomizations',
-				'currentSlug',
 				'customizations',
 				'isUnsaved',
 			],
@@ -20,10 +19,6 @@ export const previewSchema = {
 				previousCustomizations: {
 					type: 'array',
 					description: 'Previous values of the customizations property to enable undo',
-				},
-				currentSlug: {
-					type: [ 'string', 'null' ],
-					description: 'A URL path to append to the current site URL when fetching the preview',
 				},
 				customizations: {
 					type: [ 'object', 'null' ],
