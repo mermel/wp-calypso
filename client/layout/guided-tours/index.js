@@ -41,17 +41,25 @@ class GuidedTours extends Component {
 		this.updateTarget( stepConfig );
 	}
 
+	componentWillReceiveProps( nextProps ) {
+		const { stepConfig } = nextProps.tourState;
+
+		stepConfig.continueIf &&
+			stepConfig.continueIf( nextProps.state ) &&
+			this.next();
+	}
 	shouldComponentUpdate( nextProps ) {
-		return this.props.tourState !== nextProps.tourState;
+		console.log( 'SHOULD UPDATE?', this.props.tourState, nextProps.tourState );
+		return (
+			( this.props.tourState.stepConfig !== nextProps.tourState.stepConfig ) ||
+			//( this.props.tourState.tour !== nextProps.tourState.tour ) ||
+			( this.props.tourState.shouldShow !== nextProps.tourState.shouldShow )
+		);
 	}
 
 	componentWillUpdate( nextProps ) {
 		const { stepConfig } = nextProps.tourState;
 
-		stepConfig.continueIf &&
-		  stepConfig.continueIf( nextProps.state ) &&
-			this.next();
-			
 		this.updateTarget( stepConfig );
 	}
 

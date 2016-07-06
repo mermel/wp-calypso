@@ -214,5 +214,5 @@ export const getGuidedTourState = createSelector(
 			shouldShow,
 		};
 	},
-	[ getRawGuidedTourState, isSectionLoading, getActionLog, getSectionName ]
+	[ getRawGuidedTourState, isSectionLoading, getActionLog ]
 );
