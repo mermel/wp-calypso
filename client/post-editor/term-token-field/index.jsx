@@ -2,8 +2,8 @@
  * External dependencies
  */
 import React from 'react';
-import cloneDeep from 'lodash/cloneDeep';
 import { connect } from 'react-redux';
+import { cloneDeep, map } from 'lodash';
 import _debug from 'debug';
 
 /**
@@ -63,7 +63,7 @@ class TermTokenField extends React.Component {
 	}
 
 	render() {
-		const termNames = ( this.props.terms || [] ).map( term => term.name );
+		const termNames = map( this.props.terms, 'name' );
 
 		return (
 			<label className="editor-drawer__label">
