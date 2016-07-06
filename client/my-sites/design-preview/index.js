@@ -17,7 +17,7 @@ import { fetchPreviewMarkup, undoCustomization, clearCustomizations, clearPrevie
 import accept from 'lib/accept';
 import { updatePreviewWithChanges } from 'lib/design-preview';
 import layoutFocus from 'lib/layout-focus';
-import { getSelectedSite, getSelectedSiteId } from 'state/ui/selectors';
+import { getSelectedSite, getSelectedSiteId, getPreviewSlug } from 'state/ui/selectors';
 
 const debug = debugFactory( 'calypso:design-preview' );
 
@@ -220,11 +220,12 @@ function mapStateToProps( state ) {
 		};
 	}
 
-	const { previewMarkup, customizations, isUnsaved, currentSlug } = state.preview[ selectedSiteId ];
+	const previewSlug = getPreviewSlug( state );
+	const { previewMarkup, customizations, isUnsaved } = state.preview[ selectedSiteId ];
 	return {
 		selectedSite,
 		selectedSiteId,
-		previewSlug: currentSlug,
+		previewSlug,
 		previewMarkup,
 		customizations,
 		isUnsaved,
