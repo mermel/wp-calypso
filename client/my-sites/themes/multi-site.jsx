@@ -20,13 +20,11 @@ import {
 import { getQueryParams, getThemesList } from 'state/themes/themes-list/selectors';
 import ThemeShowcase from './theme-showcase';
 
-const ThemeShowcaseWithSidebarNavigation = ( props ) => (
-		<ThemeShowcase { ...props }>
-			<SidebarNavigation />
-		</ThemeShowcase>
-);
-
-const ThemesMultiSite = wrapThemeOptionsWithSiteSelector( '/design' )( ThemeShowcaseWithSidebarNavigation );
+const ThemesMultiSite = wrapThemeOptionsWithSiteSelector( '/design' )( props => (
+	<ThemeShowcase { ...props }>
+		<SidebarNavigation />
+	</ThemeShowcase>
+) );
 
 const mergeProps = ( stateProps, dispatchProps, ownProps ) => Object.assign(
 	{},
