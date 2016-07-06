@@ -29,7 +29,7 @@ export function fetchPreviewMarkup( site, slug, customizations ) {
 		wpcom.undocumented().fetchPreviewMarkup( site, slug, postData )
 		.then( markup => dispatch( gotMarkup( site, markup ) ) );
 		// TODO: handle errors
-	}
+	};
 }
 
 export function setPreviewSlug( siteId, slug ) {
@@ -42,6 +42,10 @@ export function gotMarkup( siteId, markup ) {
 
 export function clearCustomizations( siteId ) {
 	return { type: ActionTypes.PREVIEW_CUSTOMIZATIONS_CLEAR, siteId };
+}
+
+export function clearPreviewSlug( siteId ) {
+	return { type: ActionTypes.PREVIEW_SLUG_CLEAR, siteId };
 }
 
 export function updateCustomizations( siteId, customizations ) {
