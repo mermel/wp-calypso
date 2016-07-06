@@ -33,6 +33,8 @@ const DesignPreview = React.createClass( {
 		defaultViewportDevice: React.PropTypes.string,
 		// Show close button; same as WebPreview.
 		showClose: React.PropTypes.bool,
+		// Optional URL slug (everything after the site); otherwise we use the home page
+		previewSlug: React.PropTypes.string,
 		// Elements to render on the right side of the toolbar; same as WebPreview.
 		children: React.PropTypes.node,
 		// A function to run when the preview has loaded. Will be passed a ref to the iframe document object.
@@ -61,6 +63,7 @@ const DesignPreview = React.createClass( {
 			customizations: {},
 			isUnsaved: false,
 			onLoad: noop,
+			previewSlug: null,
 		};
 	},
 
@@ -158,7 +161,6 @@ const DesignPreview = React.createClass( {
 			return;
 		}
 		event.preventDefault();
-		// TODO: if the href is on the current site, load the href as a preview and fetch markup for that url
 	},
 
 	getPreviewUrl( site ) {
@@ -166,7 +168,9 @@ const DesignPreview = React.createClass( {
 			return null;
 		}
 
-		const parsed = url.parse( site.options.unmapped_url, true );
+		const slug = this.props.previewSlug ? '/' + this.props.previewSlug : '';
+		const baseUrl = site.options.unmapped_url + slug;
+		const parsed = url.parse( baseUrl, true );
 		parsed.query.iframe = true;
 		parsed.query.theme_preview = true;
 		if ( site.options && site.options.frame_nonce ) {
@@ -213,10 +217,11 @@ function mapStateToProps( state ) {
 		};
 	}
 
-	const { previewMarkup, customizations, isUnsaved } = state.preview[ selectedSiteId ];
+	const { previewMarkup, customizations, isUnsaved, currentSlug } = state.preview[ selectedSiteId ];
 	return {
 		selectedSite,
 		selectedSiteId,
+		previewSlug: currentSlug,
 		previewMarkup,
 		customizations,
 		isUnsaved,
