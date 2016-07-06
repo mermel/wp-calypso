@@ -11,12 +11,15 @@ const siteInitialState = {
 	previousCustomizations: [],
 	customizations: {},
 	isUnsaved: false,
+	currentSlug: null,
 	previewMarkup: '',
 };
 
 function siteReducer( newState = siteInitialState, action ) {
 	const state = Object.assign( {}, siteInitialState, newState );
 	switch ( action.type ) {
+		case ActionTypes.PREVIEW_SLUG_SET:
+			return Object.assign( {}, state, { currentSlug: action.slug } );
 		case ActionTypes.PREVIEW_MARKUP_RECEIVE:
 			if ( action.markup === state.previewMarkup ) {
 				return state;
@@ -31,7 +34,7 @@ function siteReducer( newState = siteInitialState, action ) {
 				customizations: Object.assign( {}, state.customizations, action.customizations )
 			} );
 		case ActionTypes.PREVIEW_CUSTOMIZATIONS_UNDO:
-			const undoneCustomizations = state.previousCustomizations.length > 0 ? state.previousCustomizations.slice( -1 )[0] : {};
+			const undoneCustomizations = state.previousCustomizations.length > 0 ? state.previousCustomizations.slice( -1 )[ 0 ] : {};
 			return Object.assign( {}, state, {
 				isUnsaved: true,
 				previousCustomizations: state.previousCustomizations.slice( 0, -1 ),
@@ -51,6 +54,7 @@ export default function( newState = initialState, action ) {
 		case ActionTypes.PREVIEW_CUSTOMIZATIONS_UPDATE:
 		case ActionTypes.PREVIEW_CUSTOMIZATIONS_UNDO:
 		case ActionTypes.PREVIEW_CUSTOMIZATIONS_SAVED:
+		case ActionTypes.PREVIEW_SLUG_SET:
 			return Object.assign( {}, state, { [ action.siteId ]: siteReducer( state[ action.siteId ], action ) } );
 		case ActionTypes.SERIALIZE:
 			return state;
