@@ -13,7 +13,7 @@ import url from 'url';
  */
 import config from 'config';
 import WebPreview from 'components/web-preview';
-import { fetchPreviewMarkup, undoCustomization, clearCustomizations } from 'state/preview/actions';
+import { fetchPreviewMarkup, undoCustomization, clearCustomizations, clearPreviewSlug } from 'state/preview/actions';
 import accept from 'lib/accept';
 import { updatePreviewWithChanges } from 'lib/design-preview';
 import layoutFocus from 'lib/layout-focus';
@@ -47,6 +47,7 @@ const DesignPreview = React.createClass( {
 		fetchPreviewMarkup: React.PropTypes.func.isRequired,
 		undoCustomization: React.PropTypes.func.isRequired,
 		clearCustomizations: React.PropTypes.func.isRequired,
+		clearPreviewSlug: React.PropTypes.func.isRequired,
 	},
 
 	getInitialState() {
@@ -146,11 +147,13 @@ const DesignPreview = React.createClass( {
 		if ( this.props.customizations && this.props.isUnsaved ) {
 			return accept( this.translate( 'You have unsaved changes. Are you sure you want to close the preview?' ), accepted => {
 				if ( accepted ) {
+					this.props.clearPreviewSlug( this.props.selectedSiteId );
 					this.props.clearCustomizations( this.props.selectedSiteId );
 					layoutFocus.set( 'sidebar' );
 				}
 			} );
 		}
+		this.props.clearPreviewSlug( this.props.selectedSiteId );
 		this.props.clearCustomizations( this.props.selectedSiteId );
 		layoutFocus.set( 'sidebar' );
 	},
@@ -229,7 +232,7 @@ function mapStateToProps( state ) {
 }
 
 function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( { fetchPreviewMarkup, undoCustomization, clearCustomizations }, dispatch );
+	return bindActionCreators( { fetchPreviewMarkup, undoCustomization, clearCustomizations, clearPreviewSlug }, dispatch );
 }
 
 export default connect(
