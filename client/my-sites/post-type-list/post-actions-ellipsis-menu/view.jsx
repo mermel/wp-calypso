@@ -51,14 +51,12 @@ class PostActionsEllipsisMenuView extends Component {
 				icon="external"
 				target="_blank">
 				{ translate( 'View', { context: 'verb' } ) }
-				{ this.state.isPreviewing && (
-					<RootChild>
-						<WebPreview
-							previewUrl={ previewUrl }
-							onClose={ this.hidePreview }
-							showPreview />
-					</RootChild>
-				) }
+				<RootChild>
+					<WebPreview
+						showPreview={ this.state.isPreviewing }
+						previewUrl={ previewUrl }
+						onClose={ this.hidePreview } />
+				</RootChild>
 			</PopoverMenuItem>
 		);
 	}
