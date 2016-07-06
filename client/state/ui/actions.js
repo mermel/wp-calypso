@@ -8,6 +8,8 @@ import {
 	ROUTE_SET,
 	SECTION_SET,
 	PREVIEW_IS_SHOWING,
+	PREVIEW_SLUG_SET,
+	PREVIEW_SLUG_CLEAR,
 } from 'state/action-types';
 
 /**
@@ -63,5 +65,19 @@ export function setPreviewShowing( isShowing ) {
 	return {
 		type: PREVIEW_IS_SHOWING,
 		isShowing,
+	};
+}
+
+export function setPreviewSlug( slug ) {
+	return {
+		type: PREVIEW_SLUG_SET,
+		slug,
+	};
+}
+
+export function clearPreviewSlug( siteId ) {
+	return {
+		type: PREVIEW_SLUG_CLEAR,
+		siteId
 	};
 }

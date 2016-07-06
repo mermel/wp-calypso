@@ -32,20 +32,12 @@ export function fetchPreviewMarkup( site, slug, customizations ) {
 	};
 }
 
-export function setPreviewSlug( siteId, slug ) {
-	return { type: ActionTypes.PREVIEW_SLUG_SET, slug, siteId };
-}
-
 export function gotMarkup( siteId, markup ) {
 	return { type: ActionTypes.PREVIEW_MARKUP_RECEIVE, markup, siteId };
 }
 
 export function clearCustomizations( siteId ) {
 	return { type: ActionTypes.PREVIEW_CUSTOMIZATIONS_CLEAR, siteId };
-}
-
-export function clearPreviewSlug( siteId ) {
-	return { type: ActionTypes.PREVIEW_SLUG_CLEAR, siteId };
 }
 
 export function updateCustomizations( siteId, customizations ) {
