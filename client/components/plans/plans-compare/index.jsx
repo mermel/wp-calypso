@@ -61,6 +61,8 @@ const wordAdsFeature = {
 	product_slug: WORDADS_INSTANT,
 };
 
+const isPersonalPlanEnabled = isEnabled( 'plans/personal-plan' );
+
 const PlansCompare = React.createClass( {
 	mixins: [ observe( 'features' ) ],
 
@@ -157,12 +159,8 @@ const PlansCompare = React.createClass( {
 		return this.props.transaction.step.name === SUBMITTING_WPCOM_REQUEST;
 	},
 
-	isPersonalPlanTestEnabled() {
-		return abtest( 'personalPlan' ) === 'show' && isEnabled( 'plans/personal-plan' );
-	},
-
 	getColumnCount() {
-		const colsCount = this.isPersonalPlanTestEnabled() ? 5 : 4;
+		const colsCount = isPersonalPlanEnabled ? 5 : 4;
 
 		if ( ! this.props.selectedSite || ! this.props.selectedSite.jetpack ) {
 			return colsCount;
@@ -430,7 +428,7 @@ const PlansCompare = React.createClass( {
 				<SectionNav selectedText={ text[ this.state.selectedPlan ] }>
 					<NavTabs>
 						{ freeOption }
-						{ this.isPersonalPlanTestEnabled() &&
+						{ isPersonalPlanEnabled &&
 						<NavItem
 							onClick={ this.setPlan.bind( this, 'personal' ) }
 							selected={ 'personal' === this.state.selectedPlan }>
