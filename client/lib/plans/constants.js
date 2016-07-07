@@ -28,7 +28,6 @@ export const PLAN_MONTHLY_PERIOD = 31;
 export const PLAN_ANNUAL_PERIOD = 365;
 
 // features constants
-export const FEATURE_FREE_SITE = 'free-site';
 export const FEATURE_WP_SUBDOMAIN = 'wordpress-subdomain';
 export const FEATURE_CUSTOM_DOMAIN = 'custom-domain';
 export const FEATURE_FREE_THEMES = 'free-themes';
@@ -69,7 +68,6 @@ export const plansList = {
 		getPathSlug: () => 'beginner',
 		getDescription: () => i18n.translate( 'Get a free blog and be on your way to publishing your first post in less than five minutes.' ),
 		getFeatures: () => [ // pay attention to ordering, it is used on /plan page
-			FEATURE_FREE_SITE,
 			FEATURE_WP_SUBDOMAIN,
 			FEATURE_FREE_THEMES,
 			FEATURE_3GB_STORAGE,
@@ -86,7 +84,6 @@ export const plansList = {
 		getPathSlug: () => 'personal',
 		getDescription: () => i18n.translate( 'Use your own domain and establish your online presence without ads.' ),
 		getFeatures: () => [
-			FEATURE_FREE_SITE,
 			FEATURE_CUSTOM_DOMAIN,
 			FEATURE_FREE_THEMES,
 			FEATURE_3GB_STORAGE,
@@ -105,7 +102,6 @@ export const plansList = {
 		availableFor: ( plan ) => includes( [ PLAN_FREE, PLAN_PERSONAL ], plan ),
 		getDescription: () => i18n.translate( 'Your own domain name, powerful customization options, lots of space for audio and video, and $100 advertising credit.' ),
 		getFeatures: () => [ // pay attention to ordering, it is used on /plan page
-			FEATURE_FREE_SITE,
 			FEATURE_CUSTOM_DOMAIN,
 			FEATURE_FREE_THEMES,
 			FEATURE_13GB_STORAGE,
@@ -129,7 +125,6 @@ export const plansList = {
 		getDescription: () => i18n.translate( 'Everything included with Premium, as well as live chat support, unlimited access to premium themes, and Google Analytics.' ),
 		getDescriptionWithWordAdsCredit: () => i18n.translate( 'Everything included with Premium, as well as live chat support, unlimited access to premium themes, Google Analytics, and $200 advertising credit.' ),
 		getFeatures: () => [ // pay attention to ordering, it is used on /plan page
-			FEATURE_FREE_SITE,
 			FEATURE_CUSTOM_DOMAIN,
 			FEATURE_UNLIMITED_PREMIUM_THEMES,
 			FEATURE_UNLIMITED_STORAGE,
@@ -301,11 +296,6 @@ export const featuresList = {
 		getTitle: () => i18n.translate( 'Monetize Your Site' ),
 		getDescription: () => i18n.translate( 'Add advertising to your site through our WordAds program and get paid.' ),
 		plans: allPaidPlans
-	},
-
-	[ FEATURE_FREE_SITE ]: {
-		getTitle: () => i18n.translate( 'Free site' ),
-		plans: allPlans
 	},
 
 	[ FEATURE_WP_SUBDOMAIN ]: {
