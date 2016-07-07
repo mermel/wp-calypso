@@ -5,6 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
 import merge from 'lodash/merge';
+import mapValues from 'lodash/mapValues';
 
 /**
  * Internal dependencies
@@ -109,7 +110,7 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
 		{},
 		dispatchProps,
 		{
-			customize: isCustomizable ? customize : {},
+			customize: isCustomizable ? dispatchProps.customize : {},
 			preview: isJetpack
 				? {
 					action: theme => dispatchProps.customize( theme, site, 'showcase' ),
@@ -119,14 +120,22 @@ const mergeProps = ( stateProps, dispatchProps, ownProps ) => {
 		getSheetOptions( site, isJetpack )
 	);
 
+	const boundOptions = mapValues( options, option => Object.assign(
+		{},
+		option,
+		option.action
+			? { action: theme => option.action( theme, site ) }
+			: {}
+	) );
+
 	return Object.assign(
 		{},
 		ownProps,
 		stateProps,
 		{
-			options,
-			defaultOption: options.tryandcustomize,
-			getScreenshotOption: theme => theme.active ? options.customize : options.info
+			options: boundOptions,
+			defaultOption: boundOptions.tryandcustomize,
+			getScreenshotOption: theme => theme.active ? boundOptions.customize : boundOptions.info
 		}
 	);
 };
