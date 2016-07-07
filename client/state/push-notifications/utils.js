@@ -21,7 +21,6 @@ export function getChromeVersion() {
 export function isPushNotificationsSupported() {
 	return (
 		isServiceWorkerSupported() &&
-		! isUnsupportedChromeVersion() &&
 		'showNotification' in window.ServiceWorkerRegistration.prototype &&
 		'PushManager' in window
 	);
