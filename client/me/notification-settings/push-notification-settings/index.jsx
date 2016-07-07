@@ -259,6 +259,14 @@ const PushNotificationSettings = React.createClass( {
 		);
 	},
 
+	isUnsupportedChromeVersion: function() {
+		if ( global.window && global.window.chrome && global.window.navigator.appVersion ) {
+			const match = global.window.navigator.appVersion.match( /Chrome\/(\d+)/ );
+			return match[ 1 ] < 50;
+		}
+		return false;
+	},
+
 	render: function() {
 		let blockedInstruction,
 			buttonClass,
@@ -268,7 +276,7 @@ const PushNotificationSettings = React.createClass( {
 			stateClass,
 			stateText;
 
-		if ( ! this.props.apiReady ) {
+		if ( ! this.props.apiReady || this.isUnsupportedChromeVersion() ) {
 			return null;
 		}
 
