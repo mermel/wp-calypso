@@ -32,13 +32,16 @@ import {
 import {
 	isPushNotificationsDenied,
 	isPushNotificationsSupported,
+	isUnsupportedChromeVersion,
+	getChromeVersion
 } from './utils';
 import {
 	isServiceWorkerSupported,
 	registerServerWorker,
 } from 'lib/service-worker';
 import {
-	recordTracksEvent
+	recordTracksEvent,
+	bumpStat
 } from 'state/analytics/actions';
 
 const debug = debugFactory( 'calypso:push-notifications' );
@@ -51,6 +54,13 @@ export function init() {
 	return dispatch => {
 		if ( ! isPushNotificationsSupported() ) {
 			debug( 'Push Notifications are not supported' );
+			dispatch( apiNotReady() );
+			return;
+		}
+
+		if ( isUnsupportedChromeVersion() ) {
+			debug( 'Push Notifications are not supported in Chrome 49 and below' );
+			dispatch( bumpStat( 'calypso_push_notif_unsup_chrome', getChromeVersion() ) );
 			dispatch( apiNotReady() );
 			return;
 		}

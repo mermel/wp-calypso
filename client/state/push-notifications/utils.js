@@ -4,17 +4,18 @@
 import {
 	isServiceWorkerSupported,
 } from 'lib/service-worker';
-import bumpStat from 'state/analytics/actions';
 
 export function isUnsupportedChromeVersion() {
 	if ( window && window.chrome && window.navigator.appVersion ) {
-		const chromeVersion = window.navigator.appVersion.match( /Chrome\/(\d+)/ )[ 1 ];
-		if ( chromeVersion < 50 ) {
-			bumpStat( 'calypso_push_notif_unsup_chrome', chromeVersion );
+		if ( getChromeVersion() < 50 ) {
 			return true;
 		}
 	}
 	return false;
+}
+
+export function getChromeVersion() {
+	return window.navigator.appVersion.match( /Chrome\/(\d+)/ )[ 1 ];
 }
 
 export function isPushNotificationsSupported() {
