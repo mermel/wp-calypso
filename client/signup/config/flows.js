@@ -259,7 +259,7 @@ const Flows = {
 			flow = removeUserStepFromFlow( flow );
 		}
 
-		if ( ! user.get() && includes( [ 'en', 'en-gb' ], i18n.getLocaleSlug() ) ) {
+		if ( ! user.get() && 'en' === i18n.getLocaleSlug() ) {
 			flow = filterDesignTypeInFlow( flow );
 		}
 

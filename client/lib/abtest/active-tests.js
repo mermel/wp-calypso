@@ -141,9 +141,8 @@ module.exports = {
 	signupStore: {
 		datestamp: '20160706',
 		variations: {
-			designTypeWithoutStore: 25,
+			designTypeWithoutStore: 75,
 			designTypeWithStore: 25,
-			notTested: 50,
 		},
 		defaultVariation: 'designTypeWithoutStore',
 		allowExistingUsers: false,
