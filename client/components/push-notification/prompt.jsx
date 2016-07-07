@@ -84,7 +84,7 @@ const PushNotificationPrompt = React.createClass( {
 		if ( global.window && global.window.chrome && global.window.navigator.appVersion ) {
 			const chromeVersion = global.window.navigator.appVersion.match( /Chrome\/(\d+)/ )[ 1 ];
 			if ( chromeVersion < 50 ) {
-				analytics.mc.bumpStat( 'calypso_push_notification_chrome', chromeVersion );
+				analytics.mc.bumpStat( 'calypso_push_notif_unsup_chrome', chromeVersion );
 				return true;
 			}
 		}
