@@ -201,7 +201,7 @@ function filterDesignTypeInFlow( flow ) {
 	}
 
 	return assign( {}, flow, {
-		steps: flow.steps.splice( flow.steps.indexOf( 'design-type' ), 1, 'design-type-with-store' )
+		steps: flow.steps.map( stepName => stepName === 'design-type' ? 'design-type-with-store' : stepName )
 	} );
 }
 
