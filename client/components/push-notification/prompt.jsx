@@ -24,7 +24,6 @@ import {
 	isEnabled,
 	isNoticeDismissed
 } from 'state/push-notifications/selectors';
-import analytics from 'lib/analytics';
 
 const SECTION_NAME_WHITELIST = [
 	'discover',
@@ -80,25 +79,13 @@ const PushNotificationPrompt = React.createClass( {
 		return <Notice className="push-notification__notice" text={ noticeText } icon="bell" onDismissClick={ this.props.dismissNotice } />;
 	},
 
-	isUnsupportedChromeVersion: function() {
-		if ( global.window && global.window.chrome && global.window.navigator.appVersion ) {
-			const chromeVersion = global.window.navigator.appVersion.match( /Chrome\/(\d+)/ )[ 1 ];
-			if ( chromeVersion < 50 ) {
-				analytics.mc.bumpStat( 'calypso_push_notif_unsup_chrome', chromeVersion );
-				return true;
-			}
-		}
-		return false;
-	},
-
 	render: function() {
 		if (
 			! this.props.isAuthorizationLoaded ||
 			! this.props.isApiReady ||
 			this.props.isBlocked ||
 			this.props.isNoticeDismissed ||
-			( this.props.isEnabled && this.props.isAuthorized ) ||
-			this.isUnsupportedChromeVersion()
+			( this.props.isEnabled && this.props.isAuthorized )
 		) {
 			return null;
 		}

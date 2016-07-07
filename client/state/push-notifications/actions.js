@@ -49,7 +49,6 @@ const serviceWorkerOptions = {
 
 export function init() {
 	return dispatch => {
-		// Only continue if the service worker supports notifications
 		if ( ! isPushNotificationsSupported() ) {
 			debug( 'Push Notifications are not supported' );
 			dispatch( apiNotReady() );

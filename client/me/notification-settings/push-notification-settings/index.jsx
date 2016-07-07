@@ -23,7 +23,6 @@ import {
 	toggleEnabled,
 	toggleUnblockInstructions
 } from 'state/push-notifications/actions';
-import analytics from 'lib/analytics';
 
 const PushNotificationSettings = React.createClass( {
 	displayName: 'PushNotificationSettings',
@@ -260,17 +259,6 @@ const PushNotificationSettings = React.createClass( {
 		);
 	},
 
-	isUnsupportedChromeVersion: function() {
-		if ( global.window && global.window.chrome && global.window.navigator.appVersion ) {
-			const chromeVersion = global.window.navigator.appVersion.match( /Chrome\/(\d+)/ )[ 1 ];
-			if ( chromeVersion < 50 ) {
-				analytics.mc.bumpStat( 'calypso_push_notif_unsup_chrome', chromeVersion );
-				return true;
-			}
-		}
-		return false;
-	},
-
 	render: function() {
 		let blockedInstruction,
 			buttonClass,
@@ -280,7 +268,7 @@ const PushNotificationSettings = React.createClass( {
 			stateClass,
 			stateText;
 
-		if ( ! this.props.apiReady || this.isUnsupportedChromeVersion() ) {
+		if ( ! this.props.apiReady ) {
 			return null;
 		}
 
